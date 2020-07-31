@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_AlineFernandesW10_name": {
+            "defaultValue": "AlineFernandesW10",
+            "type": "String"
+        },
+        "disks_AlineFernandesW10_OsDisk_1_b6b988cfb85f4976991388d45422d883_externalid": {
+            "defaultValue": "/subscriptions/25b531d6-17d7-4f1c-af92-5c946b1f90ad/resourceGroups/INVILLIA-EASTUS/providers/Microsoft.Compute/disks/AlineFernandesW10_OsDisk_1_b6b988cfb85f4976991388d45422d883",
+            "type": "String"
+        },
+        "disks_AlineFernandesW10_DataDisk_0_externalid": {
+            "defaultValue": "/subscriptions/25b531d6-17d7-4f1c-af92-5c946b1f90ad/resourceGroups/Invillia-EastUS/providers/Microsoft.Compute/disks/AlineFernandesW10_DataDisk_0",
+            "type": "String"
+        },
+        "networkInterfaces_AlineFernandesw10227_externalid": {
+            "defaultValue": "/subscriptions/25b531d6-17d7-4f1c-af92-5c946b1f90ad/resourceGroups/Invillia-EastUS/providers/Microsoft.Network/networkInterfaces/AlineFernandesw10227",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('virtualMachines_AlineFernandesW10_name')]",
+            "location": "eastus",
+            "tags": {
+                "Chamado": "#156271"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "rs5-pro",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_AlineFernandesW10_name'), '_OsDisk_1_b6b988cfb85f4976991388d45422d883')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "StandardSSD_LRS",
+                            "id": "[parameters('disks_AlineFernandesW10_OsDisk_1_b6b988cfb85f4976991388d45422d883_externalid')]"
+                        },
+                        "diskSizeGB": 127
+                    },
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "AlineFernandesW1",
+                    "adminUsername": "itbox",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_AlineFernandesw10227_externalid')]"
+                        }
+                    ]
+                },
+                "licenseType": "Windows_Client"
+            }
+        }
+    ]
+}
